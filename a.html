@@ -153,11 +153,6 @@
             background-color: #28a745;
             color: white;
         }
-
-        .error {
-            background-color: #dc3545;
-            color: white;
-        }
     </style>
 </head>
 <body>
@@ -195,8 +190,6 @@
         function handleSubmit(event) {
             event.preventDefault();
             
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
             const messageDiv = document.getElementById('message');
 
             // 顯示成功訊息

@@ -12,14 +12,23 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
         body {
             background-color: #0a0a0a;
             color: #ffffff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            transition: background 1s;
+            background: url('bg1.jpg') center center/cover no-repeat;
+            position: relative;
         }
 
         .container {
@@ -107,7 +116,7 @@
         }
 
         .social-login {
-            display: align;
+            display: flex;
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -141,83 +150,442 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        .section {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.7s;
+        }
+
+        .section.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .main-title {
+            font-size: 10vw;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            text-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .subtitle {
+            font-size: 3vw;
+            font-weight: 400;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .intro-text {
+            font-size: 1.2rem;
+            max-width: 800px;
+            text-align: center;
+            color: #ffffff;
+            background: rgba(0,0,0,0.6);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .intro-text h2 {
+            font-size: 5vw;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .intro-text p {
+            font-size: 1.8rem;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            margin: 0 auto;
+        }
+
+        /* 登入區塊原樣式覆蓋 */
+        .login-section .container {
+            background: rgba(0,0,0,0.7);
+            border-radius: 16px;
+        }
+
+        .message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .message.success {
+            background-color: rgba(0, 128, 0, 0.7);
+        }
+
+        .message.error {
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        /* 添加登入後的特效樣式 */
+        .hacking-text {
+            font-size: 5vw;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            text-align: center;
+            width: 90%;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 18px;
+            overflow: hidden;
+            background: #000;
+            display: none;
+            opacity: 0;
+            transition: opacity 2s;
+            z-index: 9999;
+        }
+
+        @keyframes colorChange {
+            0% { color: #0f0; }
+            25% { color: #0ff; }
+            50% { color: #f0f; }
+            75% { color: #ff0; }
+            100% { color: #0f0; }
+        }
+
+        .matrix-char {
+            position: absolute;
+            animation: colorChange 2s infinite;
+        }
+
+        /* 水滴波紋動畫樣式 */
+        .ripple-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: none;
+        }
+
+        .ripple {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                width: 10px;
+                height: 10px;
+                opacity: 1;
+            }
+            100% {
+                width: 300vw;
+                height: 300vw;
+                opacity: 0;
+            }
+        }
+
+        .ripple-1 {
+            animation: rippleEffect 3s ease-out;
+        }
+
+        .ripple-2 {
+            animation: rippleEffect 3s ease-out 0.5s;
+        }
+
+        .ripple-3 {
+            animation: rippleEffect 3s ease-out 1s;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="cursor_logo.png" alt="Cursor Logo">
-        </div>
-        <div class="auth-box">
-            <h1>歡迎使用 Cursor</h1>
-            <form id="loginForm">
-                <div class="input-group">
-                    <input type="email" id="email" placeholder="電子郵件" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="password" placeholder="密碼" required>
-                </div>
-                <button type="submit">登入</button>
-            </form>
-            <div class="divider">
-                <span>或</span>
-            </div>
-            <div class="social-login">
-                <button class="social-btn">使用 Google 登入</button>
-                <button class="social-btn">使用 GitHub 登入</button>
-            </div>
-            <div class="footer">
-                <p>還沒有帳號？<a href="#">註冊</a></p>
-                <p><a href="#">忘記密碼？</a></p>
-            </div>
+    <div class="section home-section active">
+        <div class="main-title">CURSOR</div>
+        <div class="subtitle">開始你的編程之旅</div>
+    </div>
+
+    <div class="section intro-section">
+        <div class="intro-text">
+            <h2>網站介紹</h2>
+            <p>本網站提供編程學習資源、互動練習與認證功能，幫助你從零開始，逐步提升程式能力。你可以註冊帳號、參加課程、完成挑戰並獲得認證證書。</p>
         </div>
     </div>
-    <div id="message" style="display: none; margin-top: 1rem; padding: 1rem; border-radius: 6px; color: #ffffff;"></div>
+
+    <div class="section login-section">
+        <div class="container">
+            <div class="logo">
+                <img src="cursor_logo.png" alt="Cursor Logo">
+            </div>
+            <div class="auth-box">
+                <h1>歡迎使用 Cursor</h1>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="電子郵件" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="密碼" required>
+                    </div>
+                    <button type="submit">登入</button>
+                </form>
+                <div class="divider">
+                    <span>或</span>
+                </div>
+                <div class="social-login">
+                    <button class="social-btn">使用 Google 登入</button>
+                    <button class="social-btn">使用 GitHub 登入</button>
+                </div>
+                <div class="footer">
+                    <p>還沒有帳號？<a href="#">註冊</a></p>
+                    <p><a href="#">忘記密碼？</a></p>
+                </div>
+            </div>
+        </div>
+        <div id="message" style="display: none;"></div>
+    </div>
+
+    <!-- 黑客效果容器 -->
+    <div class="hacking-text" id="hackingText"></div>
+    <div class="matrix-bg" id="matrixBg"></div>
+    <div class="ripple-container" id="rippleContainer">
+        <div class="ripple ripple-1"></div>
+        <div class="ripple ripple-2"></div>
+        <div class="ripple ripple-3"></div>
+    </div>
+
     <script>
+        // 滑動切換分區
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.section');
+        const backgrounds = [
+            "url('bg1.jpg') center center/cover no-repeat",
+            "url('bg2.jpg') center center/cover no-repeat",
+            "#000"
+        ];
+        let isScrolling = false;
+
+        // 顯示指定的分區
+        function showSection(idx) {
+            console.log("切換到分區:", idx); // 調試用
+            sections.forEach((sec, i) => {
+                sec.classList.toggle('active', i === idx);
+            });
+            document.body.style.background = backgrounds[idx];
+            // 添加暗色轉場效果
+            if(idx > 0) {
+                document.body.style.boxShadow = "inset 0 0 150px rgba(0,0,0,0.8)";
+                document.body.style.transition = "background 1s, box-shadow 1.2s";
+            } else {
+                document.body.style.boxShadow = "none";
+            }
+        }
+
+        // 滾輪事件處理
+        function scrollHandler(e) {
+            e.preventDefault(); // 防止頁面滾動
+            if (isScrolling) return;
+
+            console.log("滾輪事件:", e.deltaY); // 調試用
+
+            if (e.deltaY > 0) { // 向下滾動
+                if (currentSection < sections.length - 1) {
+                    currentSection++;
+                    showSection(currentSection);
+                    isScrolling = true;
+                    setTimeout(() => { isScrolling = false; }, 800);
+                }
+            } else if (e.deltaY < 0) { // 向上滾動
+                if (currentSection > 0) {
+                    currentSection--;
+                    showSection(currentSection);
+                    isScrolling = true;
+                    setTimeout(() => { isScrolling = false; }, 800);
+                }
+            }
+        }
+
+        // 註冊滾輪事件
+        window.addEventListener('wheel', scrollHandler, { passive: false });
+
+        // 手機觸控滑動
+        let touchStartY = null;
+        window.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchend', e => {
+            if (touchStartY === null) return;
+
+            let touchEndY = e.changedTouches[0].clientY;
+            let diff = touchStartY - touchEndY;
+
+            console.log("觸控滑動:", diff); // 調試用
+
+            if (diff > 50) { // 向上滑動 (下一頁)
+                if (currentSection < sections.length - 1) {
+                    currentSection++;
+                    showSection(currentSection);
+                }
+            } else if (diff < -50) { // 向下滑動 (上一頁)
+                if (currentSection > 0) {
+                    currentSection--;
+                    showSection(currentSection);
+                }
+            }
+            touchStartY = null;
+        });
+
+        // 禁止頁面滾動
+        document.body.addEventListener('touchmove', e => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // 登入表單處理
         async function handleSubmit(event) {
             event.preventDefault();
-            
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const messageDiv = document.getElementById('message');
 
             try {
-                const response = await fetch('save.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
-                });
+                // 這裡可以實際發送請求到 save.php，但為了演示直接跳到黑客效果
+                // 假設登入永遠成功
+                messageDiv.textContent = '登入成功！正在跳轉...';
+                messageDiv.className = 'message success';
+                messageDiv.style.display = 'block';
 
-                const result = await response.json();
-                
-                if (result.success) {
-                    messageDiv.textContent = '登入成功！正在跳轉...';
-                    messageDiv.className = 'message success';
-                    messageDiv.style.display = 'block';
-                    
-                    // 延遲 1 秒後跳轉，讓用戶看到成功訊息
-                    setTimeout(() => {
-                        window.location.href = 'https://www.youtube.com/watch?v=YcqI9FdpvNs&pp=ygUVYnVyeSB0aGUgbGlnaHQgMSBob3Vy';
-                    }, 1000);
-                } else {
-                    messageDiv.textContent = result.message || '儲存資料時發生錯誤';
-                    messageDiv.className = 'message error';
-                    messageDiv.style.display = 'block';
-                }
+                // 禁用滾動
+                window.removeEventListener('wheel', scrollHandler);
+                document.body.removeEventListener('touchmove', e => e.preventDefault());
 
+                // 延遲後開始黑客效果
+                setTimeout(() => {
+                    startHackingEffect();
+                }, 2000);
             } catch (error) {
-                messageDiv.textContent = '儲存資料時發生錯誤，請稍後再試。';
+                messageDiv.textContent = '伺服器錯誤，請稍後再試';
                 messageDiv.className = 'message error';
                 messageDiv.style.display = 'block';
             }
-
-            return false;
         }
+
+        // 黑客效果
+        function startHackingEffect() {
+            // 隱藏所有內容，將背景設為黑色
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.style.display = 'none';
+            });
+            document.body.style.background = '#000';
+            document.body.style.boxShadow = 'none';
+
+            // 先顯示水滴波紋動畫
+            const rippleContainer = document.getElementById('rippleContainer');
+            rippleContainer.style.display = 'block';
+
+            // 重置波紋動畫
+            const ripples = document.querySelectorAll('.ripple');
+            ripples.forEach(ripple => {
+                ripple.style.animation = 'none';
+                ripple.offsetHeight; // 觸發重繪
+                ripple.style.animation = null;
+            });
+
+            // 在波紋動畫結束後顯示黑客文字
+            setTimeout(() => {
+                rippleContainer.style.display = 'none';
+
+                const hackingText = document.getElementById('hackingText');
+                hackingText.textContent = ''; // 清空之前可能的內容
+                hackingText.style.display = 'block';
+
+                // 要顯示的文字
+                const text = "哈哈~天才~你的登入資訊我拿走嘍";
+                let index = 0;
+
+                // 逐字顯示文字
+                function typeText() {
+                    if (index < text.length) {
+                        hackingText.textContent += text[index];
+                        index++;
+                        setTimeout(typeText, 300); // 每 300ms 顯示一個字
+                    } else {
+                        // 文字全部顯示完後，延遲啟動亂碼效果
+                        setTimeout(startMatrixEffect, 1500);
+                    }
+                }
+
+                // 開始打字效果
+                typeText();
+            }, 3500); // 波紋動畫持續時間約 3.5 秒
+        }
+
+        // 亂碼效果
+        function startMatrixEffect() {
+            // 顯示亂碼背景
+            const matrixBg = document.getElementById('matrixBg');
+            matrixBg.style.display = 'block';
+
+            // 淡入效果
+            setTimeout(() => {
+                matrixBg.style.opacity = '1';
+            }, 100);
+
+            // 延遲後隱藏黑客文字
+            setTimeout(() => {
+                document.getElementById('hackingText').style.display = 'none';
+            }, 800);
+
+            // 產生亂碼
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/';
+            const totalChars = 500; // 總亂碼數量
+
+            for (let i = 0; i < totalChars; i++) {
+                setTimeout(() => {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = `${Math.random() * 100}%`;
+                    char.style.top = `${Math.random() * 100}%`;
+                    char.style.animationDelay = `${Math.random() * 2}s`;
+                    matrixBg.appendChild(char);
+
+                    // 不斷變換亂碼
+                    setInterval(() => {
+                        char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    }, 100 + Math.random() * 900);
+                }, i * 10);
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', handleSubmit);
+
+        // 為了確保代碼運行，添加一些初始化內容
+        console.log("頁面已載入，滑動功能已初始化");
     </script>
 </body>
 </html>
